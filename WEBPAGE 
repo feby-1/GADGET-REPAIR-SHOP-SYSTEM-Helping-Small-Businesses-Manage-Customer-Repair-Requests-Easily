@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gadget Repair Shop</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Poppins', sans-serif;
+}
+
+body {
+background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)),
+url('https://images.unsplash.com/photo-1581092335397-9583eb92d232?w=1200');
+background-size: cover;
+background-position: center;
+color: white;
+min-height: 100vh;
+}
+
+header {
+background: rgba(255,255,255,0.1);
+backdrop-filter: blur(10px);
+padding: 15px;
+text-align: center;
+}
+
+nav {
+margin-top: 10px;
+}
+
+nav a {
+color: #ddd;
+margin: 0 10px;
+text-decoration: none;
+cursor: pointer;
+}
+
+nav a.active {
+color: #00eaff;
+}
+
+.container {
+width: 90%;
+max-width: 700px;
+margin: 20px auto;
+background: rgba(255,255,255,0.1);
+padding: 20px;
+border-radius: 15px;
+}
+
+section {
+display: none;
+}
+
+section.active {
+display: block;
+}
+
+.gadget-showcase {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+gap: 15px;
+margin-top: 15px;
+}
+
+.gadget-item {
+background: rgba(255,255,255,0.15);
+padding: 15px;
+border-radius: 12px;
+text-align: center;
+}
+
+.gadget-item img {
+width: 80px;
+height: 80px;
+border-radius: 50%;
+border: 2px solid #00eaff;
+}
+
+form input, form select, form textarea {
+width: 100%;
+padding: 10px;
+margin: 8px 0;
+border-radius: 8px;
+border: none;
+}
+
+form button {
+width: 100%;
+padding: 12px;
+border: none;
+border-radius: 8px;
+background: #00eaff;
+color: black;
+font-weight: bold;
+cursor: pointer;
+}
+
+#msg {
+display: none;
+color: #00ff9d;
+margin-top: 10px;
+}
+
+#priceDisplay {
+margin-top: 10px;
+font-weight: bold;
+color: #00eaff;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>Gadget Repair Shop</h2>
+<nav>
+<a class="nav-link active" data-target="home">Home</a>
+<a class="nav-link" data-target="repair">Repair</a>
+<a class="nav-link" data-target="about">About Us</a>
+<a class="nav-link" data-target="contact">Contact</a>
+</nav>
+</header>
+
+<div class="container">
+
+<section id="home" class="active">
+<h2>Gadgets that we repair</h2>
+<div class="gadget-showcase">
+
+<div class="gadget-item">
+<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=150">
+<p>Cellphone</p>
+</div>
+
+<div class="gadget-item">
+<img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=150">
+<p>Tablet</p>
+</div>
+
+<div class="gadget-item">
+<img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=150">
+<p>Laptop</p>
+</div>
+
+</div>
+</section>
+
+<section id="repair">
+<h2>Repair Form</h2>
+
+<form id="repairForm">
+
+<input type="text" placeholder="Name" required>
+
+<input type="tel" placeholder="Phone Number (e.g. 09XXXXXXXXX)" 
+pattern="09[0-9]{9}" 
+maxlength="11" 
+required>
+
+<input type="text" placeholder="Brand / Model (e.g. iPhone 11, Samsung A50)" required>
+
+<select required>
+<option disabled selected>Select Gadget</option>
+<option>Cellphone</option>
+<option>Laptop</option>
+<option>Tablet</option>
+</select>
+
+<select id="problemSelect" required>
+<option disabled selected>Select Problem</option>
+<option value="LCD Issue">LCD Issue</option>
+<option value="Battery Issue">Battery Issue</option>
+<option value="Charging Issue">Charging Issue</option>
+<option value="Software Issue">Software Issue</option>
+<option value="No Power">No Power</option>
+<option value="Other">Other</option>
+</select>
+
+<input type="text" id="otherIssue" placeholder="Type your issue" style="display:none;">
+
+<p id="priceDisplay"></p>
+
+<textarea placeholder="Notes (optional)"></textarea>
+
+<button type="submit">Submit</button>
+
+</form>
+
+<p id="msg">Submitted successfully!</p>
+</section>
+
+<section id="about">
+<h2>About Us</h2>
+<p>We provide fast and affordable gadget repair services.</p>
+</section>
+
+<section id="contact">
+<h2>Contact</h2>
+<p>Phone: 09056504714</p>
+<p>Email: benchcabahug@gmail.com</p>
+</section>
+
+</div>
+
+<script>
+const links = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('section');
+
+links.forEach(link => {
+link.addEventListener('click', () => {
+links.forEach(l => l.classList.remove('active'));
+sections.forEach(s => s.classList.remove('active'));
+
+link.classList.add('active');
+document.getElementById(link.dataset.target).classList.add('active');
+});
+});
+
+const problemSelect = document.getElementById('problemSelect');
+const otherIssue = document.getElementById('otherIssue');
+const priceDisplay = document.getElementById('priceDisplay');
+
+
+const prices = {
+"LCD Issue": "₱1500",
+"Battery Issue": "₱800",
+"Charging Issue": "₱500",
+"Software Issue": "₱300",
+"No Power": "₱1000"
+};
+
+problemSelect.addEventListener('change', () => {
+
+if (problemSelect.value === "Other") {
+otherIssue.style.display = "block";
+otherIssue.required = true;
+priceDisplay.textContent = "Status: Waiting for admin evaluation...";
+} else {
+otherIssue.style.display = "none";
+otherIssue.required = false;
+otherIssue.value = "";
+
+priceDisplay.textContent = "Estimated Cost: " + prices[problemSelect.value];
+}
+
+});
+
+document.getElementById('repairForm').addEventListener('submit', e => {
+e.preventDefault();
+
+let issue = problemSelect.value;
+if (issue === "Other") {
+issue = otherIssue.value;
+}
+
+console.log("Issue:", issue);
+
+const msg = document.getElementById('msg');
+msg.style.display = 'block';
+
+setTimeout(() => {
+msg.style.display = 'none';
+}, 3000);
+});
+</script>
+
+</body>
+</html>
